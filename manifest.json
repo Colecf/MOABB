@@ -1,0 +1,16 @@
+{
+    "manifest_version": 2,
+
+    "name": "MOABB",
+    "description": "This extension allows the user to use the back button through redirect pages",
+    "version": "1.0",
+
+    "permissions": [
+        "browsingData",
+        "tabs"
+    ],
+
+    "background": {
+        "scripts": ["background.js"]
+    }
+}
