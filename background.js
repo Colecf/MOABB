@@ -11,9 +11,14 @@ function httpGetAsync(theUrl, callback)
     xmlHttp.send(null);
 }
 
-var apiKey;
+var apiKey = undefined;
 httpGetAsync(chrome.extension.getURL('apikey.txt'), function(text) {
   apiKey = text;
   console.log(apiKey);
+});
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request === "getapikey")
+    sendResponse(apiKey);
 });
 
