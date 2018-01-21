@@ -37,10 +37,27 @@ function httpJSONAsync(url, data, callback) {
 var apiKey = undefined;
 httpGetAsync(chrome.extension.getURL('apikey.txt'), function(text) {
   apiKey = text;
-  console.log(apiKey);
 });
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.type === "getSetting") {
+    chrome.storage.local.get(request.which, function(res) {
+      if(!(request.which in res)) {
+        if(request.which === "low") {
+          res["low"] = -1;
+        } else if(request.which === "high") {
+          res["high"] = -0.25;
+        }
+      }
+      sendResponse(res[request.which]);
+    });
+    return true;
+  }
+  if(request.type === "setSetting") {
+    var toSet = {};
+    toSet[request.which] = request.value;
+    chrome.storage.local.set(toSet);
+  }
   if (request.type === "getapikey")
     sendResponse(apiKey);
   if (request.type === "analyzeSentiment") {
