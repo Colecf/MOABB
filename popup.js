@@ -1,8 +1,7 @@
-function recensor() {
-    chrome.runtime.sendMessage({type: "recensor"});
-}
-
 $(document).ready(function() {
+  $("#button").click(function() {
+    chrome.runtime.sendMessage({type: "recensor"});
+  });
   $("#score").slider({
     range: true,
     step: 0.1,

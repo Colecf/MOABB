@@ -45,6 +45,7 @@ httpGetAsync(chrome.extension.getURL('apikey.txt'), function(text) {
 });
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  console.log(request);
   if (request.type === "getSetting") {
     chrome.storage.local.get(request.which, function(res) {
       if(!(request.which in res)) {
