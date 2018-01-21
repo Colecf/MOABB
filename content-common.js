@@ -11,15 +11,15 @@ function getCensorRange(cb) {
 }
 
 function censor(obj, sentiment){
-
-	range = getCensorRange(function(range){
+	getCensorRange(function(range){
 		if(sentiment <= range[1] && sentiment >= range[0]){
+			console.log("censored \"" + obj.text() + "\" with sentiment " + sentiment);
 			$(obj).css("filter", "blur(6px)")
 
 		    $(obj).hover(
 		    function () {
 		        $(obj).css("filter", "blur(0px)")
-		    }, 
+		    },
 		    function () {
 		        $(obj).css("filter", "blur(6px)")
 		    }
