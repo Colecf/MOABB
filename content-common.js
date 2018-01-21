@@ -1,3 +1,5 @@
+var ourJ = $.noConflict();
+
 function analyzeSentiment(text, cb) {
   chrome.runtime.sendMessage({type: "analyzeSentiment", text: text}, cb);
 }
@@ -14,14 +16,17 @@ function censor(obj, sentiment){
 
 	range = getCensorRange(function(range){
 		if(sentiment <= range[1] && sentiment >= range[0]){
-			$(obj).css("filter", "blur(6px)")
 
-		    $(obj).hover(
+			console.log("CENSORED", obj, obj.clone().children().remove().end().text())
+
+			ourJ(obj).css("filter", "blur(6px)")
+
+		    ourJ(obj).hover(
 		    function () {
-		        $(obj).css("filter", "blur(0px)")
+		        ourJ(obj).css("filter", "blur(0px)")
 		    }, 
 		    function () {
-		        $(obj).css("filter", "blur(6px)")
+		        ourJ(obj).css("filter", "blur(6px)")
 		    }
 		    );
 		}
