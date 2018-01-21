@@ -16,7 +16,7 @@ function censor(obj, sentiment){
 	getCensorRange(function(range){
 		if(sentiment <= range[1] && sentiment >= range[0]){
 
-			console.log("CENSORED", obj, obj.clone().children().remove().end().text())
+			console.log("CENSORED", obj, ourJ(obj).clone().children().remove().end().text())
 
 			ourJ(obj).css("filter", "blur(6px)")
 
