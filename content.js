@@ -1,17 +1,26 @@
 var apiKey = undefined;
-chrome.runtime.sendMessage("getapikey", function(response) {
-  apiKey = response;
+analyzeSentiment("I hate google.", function(response) {
+  console.log(response);
 });
+
 
 
 var pagetext = ""
 var objarr = []
 
+function analyzeSentiment(text, cb) {
+  chrome.runtime.sendMessage({type: "analyzeSentiment", text: text}, cb);
+}
+
 $("*:not(script)").each(function() {
+
+
+
   var text = $(this).clone().children().remove().end().text();
 
 
   if(text.length > 0) {
+
     console.log(text);
     pagetext += "\n\n"+text
     objarr.push($(this))
@@ -32,6 +41,7 @@ $("*:not(script)").each(function() {
     //$(this).css("hover", "filter: blur(0px)")
 //}
     //this.style.filter = "blur(6px)"
+
   }
 });
 
