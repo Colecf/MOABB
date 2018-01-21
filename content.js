@@ -39,7 +39,7 @@ function censor_arr(obj_arr){
 
     obj_arr.forEach(function(obj, i){
 
-	console.log("TSERTHRZETSYSETYDSERYDRSETDYR",obj);
+	//console.log("TSERTHRZETSYSETYDSERYDRSETDYR",obj);
 
 	if(ourJ(obj).is(':visible')){
 	    text = ourJ(obj).clone().children().remove().end().text();
@@ -79,7 +79,7 @@ function censor_obj(obj){
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 
-    console.log("RECENSOR")
+    //console.log("RECENSOR")
 
     if(request.type === "recensor")
         redo();
@@ -98,7 +98,7 @@ function redo(){
 
 
     getOptimizedCheckbox(function(opt){
-        console.log(opt)
+        //console.log(opt)
 
         if(opt){
             ourJ("*:visible").each(function() {
@@ -134,7 +134,7 @@ function redo(){
 function censor_page(objarr, ofsarr, pagetext) {
     analyzeSentiment(pagetext, function(data){
 
-        console.log(data)
+        //console.log(data)
 
         var sentence_index = 0
 
@@ -144,17 +144,17 @@ function censor_page(objarr, ofsarr, pagetext) {
             var total_score = 0;
             var total_magnitude = 0;
 
-            console.log(":::::",ourJ(objarr[i]).clone().children().remove().end().text(), ":::::")        
+            //console.log(":::::",ourJ(objarr[i]).clone().children().remove().end().text(), ":::::")        
 
             while(true) {
                 sentence = data.sentences[sentence_index]
 
-                console.log(sentence.text.beginOffset, ofsarr[i+1])
+                //console.log(sentence.text.beginOffset, ofsarr[i+1])
 
                 if(sentence.text.beginOffset >= ofsarr[i+1]){
                     break;
                 }
-                console.log("\t\t\t",sentence.text.content)
+                //console.log("\t\t\t",sentence.text.content)
 
                 sentence_index++
 
