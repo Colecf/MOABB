@@ -1,15 +1,3 @@
-var apiKey = undefined;
-analyzeSentiment("I hate google.", function(response) {
-  console.log(response);
-  console.log(response.sentences[0].text)
-});
-
-
-
-function analyzeSentiment(text, cb) {
-  chrome.runtime.sendMessage({type: "analyzeSentiment", text: text}, cb);
-}
-
 function isEmptyOrSpaces(str){
     return str === null || str.match(/^ *$/) !== null;
 }
