@@ -24,12 +24,7 @@
     "content_scripts": [
         {
             "matches": ["http://*/*", "https://*/*"],
-            "exclude_matches": ["http://*.reddit.com/*", "https://*.reddit.com/*"],
             "js": ["jquery-3.3.1.min.js", "content-common.js", "content.js"]
-        },
-        {
-            "matches": ["http://*.reddit.com/*", "https://*.reddit.com/*"],
-            "js": ["jquery-3.3.1.min.js", "content-common.js", "reddit.js"]
         }
     ]
 }
