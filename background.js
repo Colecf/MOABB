@@ -4,11 +4,34 @@ function httpGetAsync(theUrl, callback)
 {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
+      if (xmlHttp.readyState == 4) {
+        if(xmlHttp.status == 200) {
+          callback(xmlHttp.responseText);
+        } else {
+          callback({error: xmlHttp.status});
+        }
+      }
     };
     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
     xmlHttp.send(null);
+}
+
+function httpJSONAsync(url, data, callback) {
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function() {
+    console.log(xmlHttp);
+    if (xmlHttp.readyState == 4) {
+      if(xmlHttp.status == 200) {
+        console.log(JSON.parse(xmlHttp.responseText));
+        callback(JSON.parse(xmlHttp.responseText));
+      } else {
+        callback({error: xmlHttp.status});
+      }
+    }
+  };
+  xmlHttp.open("POST", url, true);
+  xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xmlHttp.send(JSON.stringify(data));
 }
 
 var apiKey = undefined;
@@ -18,7 +41,25 @@ httpGetAsync(chrome.extension.getURL('apikey.txt'), function(text) {
 });
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  if (request === "getapikey")
+  if (request.type === "getapikey")
     sendResponse(apiKey);
+  if (request.type === "analyzeSentiment") {
+    if(!apiKey) {
+      sendResponse({error: "No API key!"});
+      return;
+    }
+
+    httpJSONAsync('https://language.googleapis.com/v1beta2/documents:analyzeSentiment?key='+apiKey, {
+      document: {
+        type: "PLAIN_TEXT",
+        language: "en",
+        content: request.text
+      },
+      encodingType: "UTF8"
+    }, sendResponse);
+    return true; // to make it not invalidate sendResponse
+  }
+  
 });
+
 

@@ -1,12 +1,16 @@
 var apiKey = undefined;
-chrome.runtime.sendMessage("getapikey", function(response) {
-  apiKey = response;
+analyzeSentiment("I hate google.", function(response) {
+  console.log(response);
 });
+
+function analyzeSentiment(text, cb) {
+  chrome.runtime.sendMessage({type: "analyzeSentiment", text: text}, cb);
+}
 
 $("*").each(function() {
   var text = $(this).clone().children().remove().end().text();
   if(text.length > 0) {
-    console.log(text);
+    //console.log(text);
   }
 });
 
