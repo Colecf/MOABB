@@ -52,6 +52,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
           res["low"] = -1;
         } else if(request.which === "high") {
           res["high"] = -0.25;
+        } else if(request.which === "optimizedWay") {
+          res["optimizedWay"] = false;
         }
       }
       sendResponse(res[request.which]);

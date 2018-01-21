@@ -12,6 +12,12 @@ function getCensorRange(cb) {
   });
 }
 
+function getOptimizedCheckbox(cb) {
+  chrome.runtime.sendMessage({type: "getSetting", which: "optimizedWay"}, function(x) {
+    cb(x);
+  });
+}
+
 function censor(obj, sentiment){
 	getCensorRange(function(range){
 		if(sentiment <= range[1] && sentiment >= range[0]){
