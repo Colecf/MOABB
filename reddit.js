@@ -26,6 +26,22 @@ $(".usertext-body").each(function() {
     }
 });
 
+function censor(obj, sentiment){
+
+    //console.log(sentiment)
+    if(sentiment < -0.25){
+        $(obj).css("filter", "blur(6px)")
+
+        $(obj).hover(
+        function () {
+            $(obj).css("filter", "blur(0px)")
+        },
+        function () {
+            $(obj).css("filter", "blur(6px)")
+        }
+        );
+    }
+}
 
 analyzeSentiment(userContent, function(analyzedData) {
     console.log(analyzedData);
@@ -35,20 +51,18 @@ analyzeSentiment(userContent, function(analyzedData) {
     for(var i = 0; i < objArr.length; ++i)
     {
         var currentObj = objArr[i];
-        var totalScore = 0;
-        var totalMagnitude = 0;
+        var totalSentiment = 0;
         currOffset += currentObj.text().length;
         for (; sentencesIdx < sentences.length; ++sentencesIdx)
         {
             var sentence = sentences[sentencesIdx];
             if (sentence.text.beginOffset >= currOffset)
             {
-                console.log("MATCHING: \"" + text + "\"\n\"" + sentence.text.content + "\"");
                 break;
             }
-            var totalScore += sentence.sentiment.score;
-            var totalMagnitude += sentence.sentiment.magnitude;
+            totalSentiment += sentence.sentiment.score * sentence.sentiment.magnitude;
         }
-
+        censor(currentObj, totalSentiment);
+        totalSentiment = 0;
     }
 });
