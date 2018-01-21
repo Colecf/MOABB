@@ -5,43 +5,36 @@ function analyzeSentiment(text, cb) {
     chrome.runtime.sendMessage({type: "analyzeSentiment", text: text}, cb);
 }
 
+function isEmptyOrSpaces(str){
+    return str === null || str.match(/^ *$/) !== null;
+}
+
 var userContent = "";
 var objArr = new Array();
 
 $(".title a.title").each(function() {
-    objArr.push($(this));
     var text = $(this).text();
-    if(text.length > 0) {
+    if(!isEmptyOrSpaces(text)) {
+        objArr.push($(this));
         userContent += text + "\n\n";
-        console.log("TITLES: " + text + " LENGTH: " + text.length);
     }
 });
 
 $(".usertext-body").each(function() {
-    objArr.push($(this));
     var text = $(this).text();
-    if(text.length > 0) {
+    if(!isEmptyOrSpaces(text)) {
+        objArr.push($(this));
         userContent += text + "\n\n";
-        console.log("COMMENTS: " + text + " LENGTH: " + text.length);
     }
 });
 
-function censor(obj, sentiment){
-
-    //console.log(sentiment)
-    if(sentiment < -0.25){
-        $(obj).css("filter", "blur(6px)")
-
-        $(obj).hover(
-        function () {
-            $(obj).css("filter", "blur(0px)")
-        },
-        function () {
-            $(obj).css("filter", "blur(6px)")
-        }
-        );
+/*$("*:visible").each(function() {
+    var text = $(this).clone().children().remove().end().text();
+    if(text.length > 6) {
+        objArr.push($(this));
+        userContent += text + "\n\n";
     }
-}
+});*/
 
 analyzeSentiment(userContent, function(analyzedData) {
     console.log(analyzedData);
@@ -56,13 +49,14 @@ analyzeSentiment(userContent, function(analyzedData) {
         for (; sentencesIdx < sentences.length; ++sentencesIdx)
         {
             var sentence = sentences[sentencesIdx];
-            if (sentence.text.beginOffset >= currOffset)
+            if (sentence.text.beginOffset > currOffset)
             {
                 break;
             }
-            totalSentiment += sentence.sentiment.score * sentence.sentiment.magnitude;
+            totalSentiment += sentence.sentiment.score;
         }
         censor(currentObj, totalSentiment);
+        //console.log("censored: " + currentObj.text() + totalSentiment);
         totalSentiment = 0;
     }
 });
