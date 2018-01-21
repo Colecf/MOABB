@@ -12,26 +12,26 @@ function isEmptyOrSpaces(str){
 var userContent = "";
 var objArr = new Array();
 
-$(".title a.title").each(function() {
-    var text = $(this).text();
+ourJ(".title a.title").each(function() {
+    var text = ourJ(this).text();
     if(!isEmptyOrSpaces(text)) {
-        objArr.push($(this));
+        objArr.push(ourJ(this));
         userContent += text + "\n\n";
     }
 });
 
-$(".usertext-body").each(function() {
-    var text = $(this).text();
+ourJ(".usertext-body").each(function() {
+    var text = ourJ(this).text();
     if(!isEmptyOrSpaces(text)) {
-        objArr.push($(this));
+        objArr.push(ourJ(this));
         userContent += text + "\n\n";
     }
 });
 
-/*$("*:visible").each(function() {
-    var text = $(this).clone().children().remove().end().text();
+/*ourJ("*:visible").each(function() {
+    var text = ourJ(this).clone().children().remove().end().text();
     if(text.length > 6) {
-        objArr.push($(this));
+        objArr.push(ourJ(this));
         userContent += text + "\n\n";
     }
 });*/
