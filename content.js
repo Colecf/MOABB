@@ -37,8 +37,7 @@ var objarr = []
 var ofsarr = []
 
 
-
-$("*:not(script):visible").each(function() {
+$("*:visible").each(function() {
   var text = $(this).clone().children().remove().end().text();
 
   if(text.length > 10 && !isEmptyOrSpaces(text)) {
