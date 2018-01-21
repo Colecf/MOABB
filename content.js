@@ -1,23 +1,8 @@
-var apiKey = undefined;
-analyzeSentiment("I hate google.", function(response) {
-  console.log(response);
-});
-
-
-
 var pagetext = ""
 var objarr = []
 
-function analyzeSentiment(text, cb) {
-  chrome.runtime.sendMessage({type: "analyzeSentiment", text: text}, cb);
-}
-
-$("*:not(script)").each(function() {
-
-
-
+$("*:visible").each(function() {
   var text = $(this).clone().children().remove().end().text();
-
 
   if(text.length > 0) {
 
