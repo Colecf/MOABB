@@ -16,7 +16,8 @@ function httpGetAsync(theUrl, callback)
     xmlHttp.send(null);
 }
 
-function httpJSONAsync(url, data, callback) {
+function httpJSONAsync(url, data, callback, depth) {
+  depth = depth || 0;
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.onreadystatechange = function() {
     console.log(xmlHttp);
@@ -24,6 +25,10 @@ function httpJSONAsync(url, data, callback) {
       if(xmlHttp.status == 200) {
         console.log(JSON.parse(xmlHttp.responseText));
         callback(JSON.parse(xmlHttp.responseText));
+      } else if(xmlHttp.status == 429 && depth < 5) {
+        setTimeout(function() {
+          httpJsonAsync(url, data, callback, depth+1);
+        }, 200);
       } else {
         callback({error: xmlHttp.status});
       }
